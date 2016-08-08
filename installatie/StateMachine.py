@@ -1,5 +1,7 @@
 import pygame
+from time import sleep
 
+DEBOUNCE_PERIOD = 0.5
 
 class State:
 	def __init__(self, name):
@@ -143,15 +145,19 @@ class StateMachine:
 
 	def hangen(self):
 		self.event('broek_p')
+		sleep(DEBOUNCE_PERIOD)
 
 	def loslaten(self):
 		self.event('broek_r')
+		sleep(DEBOUNCE_PERIOD)
 
 	def opstappen(self):
 		self.event('plank_p')
+		sleep(DEBOUNCE_PERIOD)
 
 	def afstappen(self):
 		self.event('plank_r')
+		sleep(DEBOUNCE_PERIOD)
 
 	def event(self, event):
 		state = self.state.event(event)
@@ -161,6 +167,7 @@ class StateMachine:
 		if (state != None):
 			state.action(self.broekhanger)
 			self.state = state
+			self.broekhanger.app.status_update(str(state))
 
 	def __str__(self):
 		return ", ".join(('*'+str(s)+'*') if s == self.state else str(s) for s in self.states)

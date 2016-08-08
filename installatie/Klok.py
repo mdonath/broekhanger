@@ -7,9 +7,10 @@ from hardware import KlokDisplay, RoepToeter
 
 
 class Klok():
-	def __init__(self):
+	def __init__(self, app):
 		self.display = KlokDisplay()
 		self.roeptoeter = RoepToeter()
+		self.app = app
 
 	def start_met_tellen(self):
 		self.teller = TellerThread(self.display)
@@ -27,10 +28,14 @@ class Klok():
 
 	def leeg(self):
 		self.display.toon_tijd('    ')
+
 	def alles_nul(self):
 		self.display.toon_tijd('0000')
+
 	def toon_tijd(self, tijd):
+		print("DEBUG: " + tijd)
 		self.display.toon_tijd(tijd)
+		self.app.klok_update(tijd)
 
 
 
@@ -49,6 +54,8 @@ class TellerThread (threading.Thread):
 
 	def time(self):
 		now = datetime.datetime.now().replace(microsecond=0)
+		if self.starttijd is None:
+			return '0000'
 		score = str(now - self.starttijd).split(':')
 		return score[1]+score[2]
 

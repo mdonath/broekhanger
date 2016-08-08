@@ -11,6 +11,8 @@ class Camera:
 
 		print("Neem een foto op {0}".format(now))
 		camera = picamera.PiCamera()
+		camera.hflip = True
+		camera.vflip = True
 		camera.annotate_text = 'Broekhangscore: ' + score[:2] + ':' + score[2:] + ' om ' + now
 		camera.capture(bestand)
 		camera.close()

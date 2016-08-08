@@ -1,6 +1,4 @@
-#!/usr/bin/python
-
-from gpiozero import Button
+from gpiozero import Button, MotionSensor
 
 from hardware import Camera, Tweeter
 from Klok import Klok
@@ -9,8 +7,10 @@ from Spelers import Spelers
 
 
 class BroekhangInstallatie:
-	def __init__(self):
-		self.klok = Klok()
+	def __init__(self, app):
+		self.app = app
+
+		self.klok = Klok(self.app)
 
 		self.machine = StateMachine(self)
 
@@ -34,16 +34,22 @@ class BroekhangInstallatie:
 
 	def reset_installatie(self):
 		self.machine.reset()
+		self.app.status_update('Broekhanger is gereset')
 
 	def klok_leeg(self):
 		self.klok.leeg()
+		self.app.klok_update('XX:XX')
+
 	def klok_op_nul(self):
 		self.klok.alles_nul()
+		self.app.klok_update('00:00')
 
 	def start_de_tijd(self):
+		self.app.status_update('Start met tellen!')
 		self.klok.start_met_tellen()
 
 	def stop_de_tijd(self):
+		self.app.status_update('Stop met tellen!')
 		score = self.klok.stop_met_tellen()
 		self.neem_een_foto(score)
 		self.klok.knipper(score)
@@ -52,6 +58,8 @@ class BroekhangInstallatie:
 	def neem_een_foto(self, score):
 		camera = Camera()
 		camera.neem_foto('foto/image1.jpg', score)
+		self.app.status_update('Foto is genomen')
+		self.app.foto_update('foto/image1.jpg')
 
 	def tweet(self, score):
 		if self.tweeter != None:
