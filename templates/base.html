@@ -1,0 +1,68 @@
+
+<html>
+  <head>
+    <title>Broekhanger</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <style>
+	#klok {
+		color: red;
+	}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+    <div class="row">
+        Broekhanger: <a href="{{ url_for('index') }}">Home</a>
+        | <button id="reset">Reset</button>
+	| Status: <span id="status">???</span>
+	| Tijd: <span id="klok">00:00</span>
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+    </div>
+<script>
+            $(document).ready(function() {
+              // Connect to socketio server.
+              var socket = io.connect();
+              socket.on('connect', function() {
+                console.log('Connected!');
+		$('#status').text('Connected!');
+              });
+              socket.on('disconnect', function() {
+                console.log('Disconnected!');
+		$('#status').text('Disconnected!');
+              });
+              socket.on('status', function(new_status) {
+                console.log('Status: ' + new_status);
+		$('#status').text(new_status);
+              });
+              socket.on('foto', function(url) {
+                console.log('Nieuwe foto: ' + url);
+		$('#foto').attr('src', null);
+		$('#foto').attr('src', url);
+              });
+              socket.on('tijd', function(tijd) {
+                console.log('Tijd: ' + tijd);
+		$('#klok').text(tijd);
+              });
+
+
+              $('#reset').click(function(ev) {
+                socket.emit('reset');
+              });
+            });
+        </script>
+  </body>
+</html>
