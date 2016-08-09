@@ -6,4 +6,4 @@ from wtforms.validators import DataRequired
 class SpelerForm(Form):
     naam = StringField('naam', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired()])
-    categorie = StringField('categorie', validators=[DataRequired()])
+    #categorie = StringField('categorie', validators=[DataRequired()])

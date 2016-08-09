@@ -1,68 +1,69 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="nl">
   <head>
     <title>Broekhanger</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
+
     <style>
-	#klok {
-		color: red;
-	}
+#klok {
+  color: red;
+}
+#status, #klok, #broek, #plank {
+  font-weight: bold;
+}
+body { padding-bottom: 70px; }
     </style>
   </head>
+
+
+
   <body>
-    <div class="container">
-    <div class="row">
-        Broekhanger: <a href="{{ url_for('index') }}">Home</a>
-        | <button id="reset">Reset</button>
-	| Status: <span id="status">???</span>
-	| Tijd: <span id="klok">00:00</span>
+
+<!-- NAVIGATOR ON TOP -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Broekhanger</a>
     </div>
-    <hr>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+      </ul>
+      <button id="reset" type="button" class="btn btn-default navbar-btn">Reset</button>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    {% include 'flash.html' %}
+
     {% block content %}{% endblock %}
-    </div>
-<script>
-            $(document).ready(function() {
-              // Connect to socketio server.
-              var socket = io.connect();
-              socket.on('connect', function() {
-                console.log('Connected!');
-		$('#status').text('Connected!');
-              });
-              socket.on('disconnect', function() {
-                console.log('Disconnected!');
-		$('#status').text('Disconnected!');
-              });
-              socket.on('status', function(new_status) {
-                console.log('Status: ' + new_status);
-		$('#status').text(new_status);
-              });
-              socket.on('foto', function(url) {
-                console.log('Nieuwe foto: ' + url);
-		$('#foto').attr('src', null);
-		$('#foto').attr('src', url);
-              });
-              socket.on('tijd', function(tijd) {
-                console.log('Tijd: ' + tijd);
-		$('#klok').text(tijd);
-              });
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container text-muted">
+    <p class="navbar-text">Broek: <span id="broek" class="badge">?</span>
+                           Plank: <span id="plank" class="badge">?</span></p>
+    <p class="navbar-text">Tijd:  <span id="klok">00:00</span></p>
+    <p class="navbar-text navbar-right">Status: <span id="status">???</span></p>
+  </div>
+</nav>
 
 
-              $('#reset').click(function(ev) {
-                socket.emit('reset');
-              });
-            });
-        </script>
+<!-- Load scripts at end of page -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.2.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/socketio-handlers.js') }}"></script>
   </body>
 </html>

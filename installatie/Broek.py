@@ -18,16 +18,32 @@ class BroekhangInstallatie:
 		self.reset.when_released = self.reset_installatie
 
 		self.broek = Button(pin=17)
-		self.broek.when_pressed = self.machine.hangen
-		self.broek.when_released = self.machine.loslaten
+		self.broek.when_pressed = self.hang_aan_de_broek
+		self.broek.when_released = self.laat_de_broek_los
 
 		self.plank = Button(pin=22)
-		self.plank.when_pressed = self.machine.opstappen
-		self.plank.when_released = self.machine.afstappen
+		self.plank.when_pressed = self.sta_op_de_plank
+		self.plank.when_released = self.stap_van_de_plank_af
 
 		self.tweeter = None 		# Tweeter('conf/credentials.txt')
 
 		self.spelers = Spelers()
+	
+	def hang_aan_de_broek(self):
+		self.machine.hangen()
+		self.app.sensor_update('sensor_broek', 'ON')
+
+	def laat_de_broek_los(self):
+		self.machine.loslaten()
+		self.app.sensor_update('sensor_broek', 'OFF')
+
+	def sta_op_de_plank(self):
+		self.machine.opstappen()
+		self.app.sensor_update('sensor_plank', 'ON')
+
+	def stap_van_de_plank_af(self):
+		self.machine.afstappen()
+		self.app.sensor_update('sensor_plank', 'OFF')
 
 	def voeg_speler_toe(self, naam, email, categorie):
 		self.spelers.voeg_speler_toe(naam, email, categorie)

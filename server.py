@@ -31,11 +31,19 @@ def foto():
 @socketio.on('connect')
 def connect():
 	print('SocketIO Connected')
+	query_sensor('broek', broekhanger.broek)
+	query_sensor('plank', broekhanger.plank)
+
+def query_sensor(id, sensor):
+	sensor_update('sensor_'+id, 'ON' if sensor.is_pressed else 'OFF')
 
 @socketio.on('disconnect')
 def disconnect():
 	print('SocketIO Disconnected')
 
+@socketio.on('addplayer')
+def addplayer(naam, email, categorie='M'):
+	print("Nieuwe speler {0} met email {1} in categorie: {2}".format(naam, email, categorie))
 
 def status_update(new_status):
 	socketio.emit('status', new_status)
@@ -45,13 +53,17 @@ def foto_update(foto):
 
 def klok_update(tijd):
 	socketio.emit('tijd', tijd)
-	
+
+def sensor_update(sensor, waarde):
+	socketio.emit(sensor, waarde)
+
 #
 # Start application
 #
 app.status_update = status_update
 app.foto_update = foto_update
 app.klok_update = klok_update
+app.sensor_update = sensor_update
 
 broekhanger = BroekhangInstallatie(app)
 
