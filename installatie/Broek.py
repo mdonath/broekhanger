@@ -3,7 +3,7 @@ from gpiozero import Button, MotionSensor
 from hardware import Camera, Tweeter
 from Klok import Klok
 from StateMachine import StateMachine
-from Spelers import Spelers
+import Speler
 
 
 class BroekhangInstallatie:
@@ -27,7 +27,7 @@ class BroekhangInstallatie:
 
 		self.tweeter = None 		# Tweeter('conf/credentials.txt')
 
-		self.spelers = Spelers()
+		self.huidige_speler = None
 	
 	def hang_aan_de_broek(self):
 		self.machine.hangen()
@@ -47,6 +47,10 @@ class BroekhangInstallatie:
 
 	def voeg_speler_toe(self, naam, email, categorie):
 		self.spelers.voeg_speler_toe(naam, email, categorie)
+
+	def laat_spelen(self, speler):
+		self.huidige_speler = speler
+		self.app.huidige_speler_update()
 
 	def reset_installatie(self):
 		self.machine.reset()
@@ -73,9 +77,9 @@ class BroekhangInstallatie:
 
 	def neem_een_foto(self, score):
 		camera = Camera()
-		camera.neem_foto('foto/image1.jpg', score)
+		camera.neem_foto('foto/image1.jpg', score, self.huidige_speler)
 		self.app.status_update('Foto is genomen')
-		self.app.foto_update('foto/image1.jpg')
+		self.app.foto_update('foto')
 
 	def tweet(self, score):
 		if self.tweeter != None:

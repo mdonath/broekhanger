@@ -20,13 +20,21 @@ class KlokDisplay(SevenSegment.SevenSegment):
 			self.no_clock = True
 
 	def toon_tijd(self, tijd):
+		tijd = self.format_for_hardware(tijd)
 		if self.no_clock:
 			print("Tijd: '{0}'".format(tijd))
 		else:
 			self.print_number_str(tijd)
 			self.write_display()
 
+	def format_for_hardware(self, tijd):
+		tijd_delen = tijd.split(':')
+		if len(tijd_delen) != 2:
+			return tijd
+		return tijd_delen[0] + tijd_delen[1]
+		
 	def knipper(self, score, aantal = 10):
+		score = self.format_for_hardware(score)
 		if self.no_clock:
 			print("Knipper de tijd")
 		else:

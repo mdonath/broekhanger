@@ -1,0 +1,27 @@
+#klok {
+  color: red;
+}
+
+#status, #klok, #broek, #plank {
+  font-weight: bold;
+}
+
+body {
+	padding-bottom: 70px;
+}
+
+.speler {
+	font-weigth: bold;
+	color: green;
+	padding-right: 1em;
+}
+
+.email {
+	font-size: smaller;
+}
+
+.categorie {
+	font-weigth: bold;
+	color: purple;
+	padding-left: 1em;
+}
