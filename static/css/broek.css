@@ -11,9 +11,6 @@ body {
 }
 
 .speler {
-	font-weigth: bold;
-	color: green;
-	padding-right: 1em;
 }
 
 .email {
@@ -21,7 +18,9 @@ body {
 }
 
 .categorie {
-	font-weigth: bold;
-	color: purple;
-	padding-left: 1em;
+}
+
+.panel-heading {
+	font-size: smaller;
+	font-weight: bold;
 }

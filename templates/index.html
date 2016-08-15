@@ -3,6 +3,7 @@
 
 <div class="container">
   <div class="row">
+    <!-- EERSTE KOLOM -->
     <div class="col-md-4">
       <div class="row">
         <h2>Laatste foto</h2>
@@ -15,59 +16,116 @@
         </div>
       </div>
     </div>
+
+    <!-- TWEEDE KOLOM -->
     <div class="col-md-4">
       <div class="row">
-        <h2>Huidige speler</h2>
-      </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">Wie is aan de beurt:</div>
+          <ol class="list-group">
+            <li class="list-group-item" role="button">
+              <span id="spelerterug" class="glyphicon glyphicon-arrow-down"></span>
+              <span id="huidigespeler">??</span>
+              <span id="spelerisklaar" class="pull-right glyphicon glyphicon-trash"></span>
+            </li>
+          </ol>
+        </div> <!-- end panel -->
+      </div> <!-- end row -->
       <div class="row">
-	<span id="huidigespeler">??</span>
-      </div>
+        <div class="col">
+          <div class="panel panel-default">
+            <div class="panel-heading">Nieuwe speler:</div>
+
+            <div class="input-group">
+              <span class="input-group-addon glyphicon glyphicon-user"></span>
+              <input id="naam" type="text" class="form-control" placeholder="Naam">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon glyphicon glyphicon-envelope"></span>
+              <input id="email" type="text" class="form-control" placeholder="Email">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input id="klein" type="radio" name="categorie" value="K">Klein
+              </span>
+              <span class="input-group-addon">
+                <input id="middel" type="radio" name="categorie" value="M">Middel
+              </span>
+              <span class="input-group-addon">
+                <input id="groot" type="radio" name="categorie" value="G">Groot
+              </span>
+            </div>
+            <div class="input-group">
+              <button id="addplayer" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span> Wachtrij
+              </button>
+              <button id="leegformulier" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-erase"></span> Leeg
+              </button>
+            </div>
+          </div> <!-- end panel -->
+        </div> <!-- end col -->
+      </div> <!-- end row -->
+
       <div class="row">
-        <h2>Wachtrij</h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-		<ol id="wachtrij">
-			<li>-- Leeg --</li>
-		</ol>
-        </div>
-      </div>
-    </div>
+        <div class="col">
+          <div class="panel panel-default">
+            <div class="panel-heading">Wie wachten op hun beurt:</div>
+            <table class="table" id="wachtrij">
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Cat.</th><th>Actie</th></tr></thead>
+              <tbody>
+                <tr><td colspan="5">-- Leeg --</td></tr>
+              </tbody>
+            </table>
+          </div> <!-- end panel -->
+        </div> <!-- end col -->
+      </div> <!-- end row -->
+    </div> <!-- end tweede kolom -->
+
+    <!-- DERDE KOLOM -->
     <div class="col-md-4">
       <div class="row">
-        <h2>Nieuwe speler</h2>
-      </div>
+        <div class="col">
+          <div class="panel panel-default">
+            <div class="panel-heading">Hoogste scores KLEIN: <span class="badge">K</span></div>
+            <table class="table" id="scores_K">
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th></tr></thead>
+              <tbody>
+                <tr><td colspan="5">-- Leeg --</td></tr>
+              </tbody>
+            </table>
+          </div> <!-- end panel -->
+        </div> <!-- end col -->
+      </div> <!-- end row -->
       <div class="row">
-        <div class="col-md-12">
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Naam</span>
-            <input id="naam" type="text" class="form-control" placeholder="Naam" aria-describedby="basic-addon1">
-          </div>
-		<br/>
-          <div class="input-group">
-            <span class="input-group-addon" id="basic-addon2">@</span>
-            <input id="email" type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon2">
-          </div>
-		<br/>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <input id="klein" type="radio" name="categorie" value="K">Klein
-            </span>
-            <span class="input-group-addon">
-              <input id="middel" type="radio" name="categorie" value="M">Middel
-            </span>
-            <span class="input-group-addon">
-              <input id="groot" type="radio" name="categorie" value="G">Groot
-            </span>
-          </div>
-		<br/>
-          <div class="input-group">
-            <input id="addplayer" type="submit" class="btn btn-default" value="Inschrijven" />
-          </div>
-	</div>
-      </div>
-    </div>
-</div>
+        <div class="col">
+          <div class="panel panel-default">
+            <div class="panel-heading">Hoogste scores MIDDEL: <span class="badge">M</span></div>
+            <table class="table" id="scores_M">
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th></tr></thead>
+              <tbody>
+                <tr><td colspan="5">-- Leeg --</td></tr>
+              </tbody>
+            </table>
+          </div> <!-- end panel -->
+        </div> <!-- end col -->
+      </div> <!-- end row -->
+      <div class="row">
+        <div class="col">
+          <div class="panel panel-default">
+            <div class="panel-heading">Hoogste scores GROOT: <span class="badge">G</span></div>
+            <table class="table" id="scores_G">
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th></tr></thead>
+              <tbody>
+                <tr><td colspan="5">-- Leeg --</td></tr>
+              </tbody>
+            </table>
+          </div> <!-- end panel -->
+        </div> <!-- end col -->
+      </div> <!-- end row -->
+    </div> <!-- end derde kolom -->
+  </div> <!-- end row -->
+</div> <!-- end container -->
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -75,6 +133,10 @@ $(document).ready(function() {
 		console.log('reload picture');
 		$('#laatste_foto').attr('src', '/foto?dummy='+Math.random());
 	});
+	$('#leegformulier').click(function() {
+		console.log('Formulier wissen');
+		$('.form-control').val(null);
+	});	
 });
 </script>
 {% endblock %}

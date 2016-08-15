@@ -1,9 +1,10 @@
-from gpiozero import Button, MotionSensor
+from gpiozero import Button, LED
 
 from hardware import Camera, Tweeter
 from Klok import Klok
 from StateMachine import StateMachine
 import Speler
+from time import sleep
 
 
 class BroekhangInstallatie:
@@ -14,10 +15,13 @@ class BroekhangInstallatie:
 
 		self.machine = StateMachine(self)
 
-		self.reset = Button(pin=27)
+		self.led_rood = LED(25)
+		self.led_groen = LED(4)
+
+		self.reset = Button(pin=17)
 		self.reset.when_released = self.reset_installatie
 
-		self.broek = Button(pin=17)
+		self.broek = Button(pin=27)
 		self.broek.when_pressed = self.hang_aan_de_broek
 		self.broek.when_released = self.laat_de_broek_los
 
@@ -28,7 +32,18 @@ class BroekhangInstallatie:
 		self.tweeter = None 		# Tweeter('conf/credentials.txt')
 
 		self.huidige_speler = None
+		self.blinkblink()
+		self.led_groen.on()
 	
+	def blinkblink(self):
+		for x in range(0, 5):
+			self.led_rood.on()
+			self.led_groen.on()
+			sleep(0.25)
+			self.led_rood.off()
+			self.led_groen.off()
+			sleep(0.25)
+
 	def hang_aan_de_broek(self):
 		self.machine.hangen()
 		self.app.sensor_update('sensor_broek', 'ON')
@@ -45,9 +60,6 @@ class BroekhangInstallatie:
 		self.machine.afstappen()
 		self.app.sensor_update('sensor_plank', 'OFF')
 
-	def voeg_speler_toe(self, naam, email, categorie):
-		self.spelers.voeg_speler_toe(naam, email, categorie)
-
 	def laat_spelen(self, speler):
 		self.huidige_speler = speler
 		self.app.huidige_speler_update()
@@ -55,6 +67,8 @@ class BroekhangInstallatie:
 	def reset_installatie(self):
 		self.machine.reset()
 		self.app.status_update('Broekhanger is gereset')
+		self.led_groen.on()
+		self.led_rood.off()
 
 	def klok_leeg(self):
 		self.klok.leeg()
@@ -67,13 +81,18 @@ class BroekhangInstallatie:
 	def start_de_tijd(self):
 		self.app.status_update('Start met tellen!')
 		self.klok.start_met_tellen()
+		self.led_groen.off()
+		self.led_rood.on()
 
 	def stop_de_tijd(self):
 		self.app.status_update('Stop met tellen!')
 		score = self.klok.stop_met_tellen()
+		if self.huidige_speler is not None:
+			self.huidige_speler.voeg_score_toe(score)
 		self.neem_een_foto(score)
 		self.klok.knipper(score)
 		self.tweet(score)
+		self.app.scores_update()
 
 	def neem_een_foto(self, score):
 		camera = Camera()

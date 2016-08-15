@@ -8,3 +8,8 @@ class Speler:
 		self.naam = naam
 		self.email = email
 		self.categorie = categorie
+		self.scores = []
+
+	def voeg_score_toe(self, score):
+		print("DEBUG: Voeg score {1} toe aan speler: {0}".format(self.naam, score))
+		self.scores.append(score)
