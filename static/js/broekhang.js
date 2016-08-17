@@ -18,8 +18,8 @@ $(document).ready(function() {
 	});
 
 	socket.on('foto', function(url) {
-		console.log('Event: Nieuwe foto: ' + url);
-		$('#laatste_foto').attr('src', url + '?rnd='+Math.random());
+		console.log('Event: Nieuwe foto te zien');
+		$('#laatste_foto').attr('src', 'foto?rnd='+Math.random());
 	});
 
 	socket.on('tijd', function(tijd) {
@@ -35,6 +35,11 @@ $(document).ready(function() {
 	socket.on('sensor_plank', function(waarde) {
 		console.log('Event: Plank: ' + waarde);
 		$('#plank').text(waarde);
+	});
+
+	socket.on('temperature', function(waarde) {
+		console.log('Event: Temperatuur: ' + waarde);
+		$('#temperaturevalue').text(waarde);
 	});
 
 	socket.on('huidige_speler', function(speler) {
@@ -82,6 +87,7 @@ $(document).ready(function() {
 						.append($('<td>').addClass('speler').append(speler.naam) )
 						.append($('<td>').addClass('email').append(speler.email) )
 						.append($('<td>').addClass('score').append(speler.scores[0]) )
+						.append($('<td>').addClass('foto thumbnail').append($('<img>').attr('src', 'foto/'+speler.id)) )
 					)
 					// Toon top 3
 					if (aantal_spelers == 3) {
@@ -141,6 +147,12 @@ $(document).ready(function() {
 	$('#poweroff').click(function(ev) {
 		console.log("Sending: poweroff");
 		socket.emit('poweroff');
+	});
+
+	/* Vraagt de temperatuur op. */
+	$('#temperature').click(function(ev) {
+		console.log("Sending: temperature");
+		socket.emit('temperature');
 	});
 
 	/* Verwijdert de huidige speler */

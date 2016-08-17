@@ -89,7 +89,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Hoogste scores KLEIN: <span class="badge">K</span></div>
             <table class="table" id="scores_K">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th><th>Foto</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>
@@ -102,7 +102,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Hoogste scores MIDDEL: <span class="badge">M</span></div>
             <table class="table" id="scores_M">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th><th>Foto</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>
@@ -115,7 +115,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Hoogste scores GROOT: <span class="badge">G</span></div>
             <table class="table" id="scores_G">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th><th>Foto</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>
@@ -127,6 +127,24 @@
   </div> <!-- end row -->
 </div> <!-- end container -->
 
+<!-- Creates the bootstrap modal where the image will appear -->
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Sluiten</span></button>
+        <h4 class="modal-title" id="myModalLabel">Afbeelding groot</h4>
+      </div>
+      <div class="modal-body">
+        <img src="" id="imagepreview" width="100%">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;Sluiten</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#laatste_foto').click(function() {
@@ -137,6 +155,19 @@ $(document).ready(function() {
 		console.log('Formulier wissen');
 		$('.form-control').val(null);
 	});	
+	$("body").on('click', 'img', function() {
+		var url = $(this).attr('src');
+		console.log("URL: " + url);
+		$('#imagepreview').attr('src', url);
+		$('#imagemodal').modal('show');
+	});
+	$('#modal').on('show.bs.model', function () {
+       $(this).find('.modal-content').css({
+              width:'auto', //probably not needed
+              height:'auto', //probably not needed 
+              'max-width':'100%'
+       });
+});
 });
 </script>
 {% endblock %}

@@ -1,4 +1,3 @@
-import pygame
 from time import sleep
 
 DEBOUNCE_PERIOD = 0.5
@@ -19,13 +18,10 @@ class State:
 class StateStart(State):
 	def __init__(self):
 		State.__init__(self, 'Start')
-		pygame.mixer.init()
-		self.audio_boing = pygame.mixer.Sound('audio/boing.wav')
 
 	def event(self, event):
 		if (event == 'plank_p'):
 			print ("Speler gaat op de plank staan")
-			self.audio_boing.play()
 			return StateMachine.OP_PLANK
 		return None
 
@@ -35,13 +31,10 @@ class StateStart(State):
 class StateOpPlank(State):
 	def __init__(self):
 		State.__init__(self, 'Staat op de plank')
-		pygame.mixer.init()
-		self.audio_boing = pygame.mixer.Sound('audio/boing.wav')
 
 	def event(self, event):
 		if (event == 'broek_p'):
 			print ("Speler hangt aan de broek, maar nog met voeten aan de grond")
-			self.audio_boing.play()
 			return StateMachine.OP_SCHERP
 		if (event == 'plank_r'):
 			print ("Speler stapt er weer vanaf")
@@ -57,13 +50,10 @@ class StateOpPlank(State):
 class StateVanPlank(State):
 	def __init__(self):
 		State.__init__(self, 'Even van de plank gestapt')
-		pygame.mixer.init()
-		self.audio_boing = pygame.mixer.Sound('audio/boing.wav')
 
 	def event(self, event):
 		if (event == 'plank_p'):
 			print ("Speler stapt er toch weer op")
-			self.audio_boing.play()
 			return StateMachine.OP_PLANK
 		if event == 'reset':
 			print ("RESET!")
@@ -76,8 +66,6 @@ class StateVanPlank(State):
 class StateOpScherp(State):
 	def __init__(self):
 		State.__init__(self, 'Klaar om te beginnen')
-		pygame.mixer.init()
-		self.audio_boing = pygame.mixer.Sound('audio/boing.wav')
 
 	def event(self, event):
 		if (event == 'plank_r'):
@@ -85,7 +73,6 @@ class StateOpScherp(State):
 			return StateMachine.HANGT
 		if (event == 'broek_r'):
 			print ("Speler laat de broek weer los")
-			self.audio_boing.play()
 			return StateMachine.OP_PLANK
 		return None
 

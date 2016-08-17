@@ -41,8 +41,23 @@ def index():
     return render_template("index.html")
 
 @app.route('/foto')
-def foto():
-	return send_file('foto/image1.jpg')
+@app.route('/foto/<int:spelerid>')
+def foto(spelerid=None):
+	if spelerid is None:
+		print("Geen spelerid meegegeven")
+		if broekhanger.huidige_speler is None or len(broekhanger.huidige_speler.fotos) == 0:
+			return send_file('foto/foto-Test.jpg')
+		else:
+			foto = broekhanger.huidige_speler.fotos[0]
+			return send_file(foto)
+	else:
+		print("Zoek de laatste foto van een speler {0}".format(spelerid))
+		for speler in spelers:
+			if speler.id == spelerid:
+				if len(speler.fotos) > 0:
+					return send_file(speler.fotos[0])
+	
+	return None
 
 #
 # SocketIO Endpoints
@@ -55,6 +70,7 @@ def connect():
 	wachtrij_update()
 	huidige_speler_update();
 	scores_update()
+	temperature_update()
 
 def query_sensor(id, sensor):
 	sensor_update('sensor_'+id, 'ON' if sensor.is_pressed else 'OFF')
@@ -107,16 +123,23 @@ def takepicture():
 	print("Neem een foto als test");
 	broekhanger.neem_een_foto('test')
 
+@socketio.on('temperature')
+def update_temperature():
+	print("update de temp")
+	temperature_update()
+
 @socketio.on('poweroff')
 def poweroff():
 	print("Zet het systeem uit");
+	broekhanger.blinkblink()
 	os.system("sudo poweroff")
 
 def status_update(new_status):
 	socketio.emit('status', new_status)
+	temperature_update()
 
-def foto_update(foto):
-	socketio.emit('foto', '/'+foto)
+def foto_update():
+	socketio.emit('foto')
 
 def klok_update(tijd):
 	socketio.emit('tijd', tijd)
@@ -132,6 +155,10 @@ def huidige_speler_update():
 
 def scores_update():
 	socketio.emit('scores', json.dumps(spelers, default=jdefault))
+
+def temperature_update():
+	tempC = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3
+	socketio.emit('temperature', "{:.2f}".format(tempC))
 
 #
 # Start application

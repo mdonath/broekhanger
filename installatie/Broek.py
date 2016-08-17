@@ -91,16 +91,16 @@ class BroekhangInstallatie:
 			self.huidige_speler.voeg_score_toe(score)
 		self.neem_een_foto(score)
 		self.klok.knipper(score)
-		self.tweet(score)
+		self.tweet(self.huidige_speler)
 		self.app.scores_update()
 
 	def neem_een_foto(self, score):
-		camera = Camera()
-		camera.neem_foto('foto/image1.jpg', score, self.huidige_speler)
+		camera = Camera('foto')
+		camera.neem_foto(self.huidige_speler, score)
 		self.app.status_update('Foto is genomen')
-		self.app.foto_update('foto')
+		self.app.foto_update()
 
-	def tweet(self, score):
+	def tweet(self, speler):
 		if self.tweeter != None:
-			self.tweeter.tweet('foto/image1.jpg', score)
+			self.tweeter.tweet(speler.fotos[0], score)
 

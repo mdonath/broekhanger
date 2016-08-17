@@ -3,7 +3,7 @@ import pygame
 class RoepToeter():
 	def __init__(self):
 		print("Initialiseer de RoepToeter")
-		pygame.mixer.init()
+		#pygame.mixer.init()
 		#self.audio = pygame.mixer.Sound('audio/output.wav')
 		print("RoepToeter [OK]")
 
