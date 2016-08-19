@@ -29,7 +29,7 @@ class BroekhangInstallatie:
 		self.plank.when_pressed = self.sta_op_de_plank
 		self.plank.when_released = self.stap_van_de_plank_af
 
-		self.tweeter = None 		# Tweeter('conf/credentials.txt')
+		self.tweeter = Tweeter(app)
 
 		self.huidige_speler = None
 		self.blinkblink()
@@ -101,6 +101,6 @@ class BroekhangInstallatie:
 		self.app.foto_update()
 
 	def tweet(self, speler):
-		if self.tweeter != None:
-			self.tweeter.tweet(speler.fotos[0], score)
+		if self.tweeter is not None and speler is not None:
+				self.tweeter.tweet(speler.laatste_foto(), speler.laatste_score(), speler.naam)
 

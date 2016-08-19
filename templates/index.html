@@ -26,6 +26,7 @@
             <li class="list-group-item" role="button">
               <span id="spelerterug" class="glyphicon glyphicon-arrow-down"></span>
               <span id="huidigespeler">??</span>
+              <span><span id="huidigespelercategorie" class="badge">?</span></span>
               <span id="spelerisklaar" class="pull-right glyphicon glyphicon-trash"></span>
             </li>
           </ol>
@@ -42,7 +43,7 @@
             </div>
             <div class="input-group">
               <span class="input-group-addon glyphicon glyphicon-envelope"></span>
-              <input id="email" type="text" class="form-control" placeholder="Email">
+              <input id="email" type="text" class="form-control" placeholder="Contact">
             </div>
             <div class="input-group">
               <span class="input-group-addon">
@@ -59,7 +60,10 @@
               <button id="addplayer" type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-plus"></span> Wachtrij
               </button>
-              <button id="leegformulier" type="button" class="btn btn-default">
+              <button id="addplayerandplay" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-play"></span> Direct
+              </button>
+              <button id="leegformulier" type="button" class="btn btn-default pull-right">
                 <span class="glyphicon glyphicon-erase"></span> Leeg
               </button>
             </div>
@@ -72,7 +76,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">Wie wachten op hun beurt:</div>
             <table class="table" id="wachtrij">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Cat.</th><th>Actie</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Contact</th><th>Cat.</th><th>Actie</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>
@@ -87,9 +91,9 @@
       <div class="row">
         <div class="col">
           <div class="panel panel-default">
-            <div class="panel-heading">Hoogste scores KLEIN: <span class="badge">K</span></div>
+            <div class="panel-heading">Top 3 - KLEIN: <span class="badge">K</span></div>
             <table class="table" id="scores_K">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th><th>Foto</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Contact</th><th>Score</th><th>Foto</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>
@@ -100,9 +104,9 @@
       <div class="row">
         <div class="col">
           <div class="panel panel-default">
-            <div class="panel-heading">Hoogste scores MIDDEL: <span class="badge">M</span></div>
+            <div class="panel-heading">Top 3 - MIDDEL: <span class="badge">M</span></div>
             <table class="table" id="scores_M">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th><th>Foto</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Contact</th><th>Score</th><th>Foto</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>
@@ -113,9 +117,9 @@
       <div class="row">
         <div class="col">
           <div class="panel panel-default">
-            <div class="panel-heading">Hoogste scores GROOT: <span class="badge">G</span></div>
+            <div class="panel-heading">Top 3 - GROOT: <span class="badge">G</span></div>
             <table class="table" id="scores_G">
-              <thead><tr><th>#</th><th>Naam</th><th>Email</th><th>Score</th><th>Foto</th></tr></thead>
+              <thead><tr><th>#</th><th>Naam</th><th>Contact</th><th>Score</th><th>Foto</th></tr></thead>
               <tbody>
                 <tr><td colspan="5">-- Leeg --</td></tr>
               </tbody>

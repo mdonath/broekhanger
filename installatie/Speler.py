@@ -18,3 +18,13 @@ class Speler:
 	def voeg_foto_toe(self, foto):
 		print("Nieuwe Foto: '{0}' voor {1}".format(foto, self.naam))
 		self.fotos.insert(0, foto)
+
+	def laatste_score(self):
+		if len(self.scores) > 0:
+			return self.scores[0]
+		return None
+
+	def laatste_foto(self):
+		if len(self.fotos) > 0:
+			return self.fotos[0]
+		return None

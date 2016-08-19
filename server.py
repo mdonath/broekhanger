@@ -48,16 +48,16 @@ def foto(spelerid=None):
 		if broekhanger.huidige_speler is None or len(broekhanger.huidige_speler.fotos) == 0:
 			return send_file('foto/foto-Test.jpg')
 		else:
-			foto = broekhanger.huidige_speler.fotos[0]
+			foto = broekhanger.huidige_speler.laatste_foto()
 			return send_file(foto)
 	else:
 		print("Zoek de laatste foto van een speler {0}".format(spelerid))
 		for speler in spelers:
 			if speler.id == spelerid:
 				if len(speler.fotos) > 0:
-					return send_file(speler.fotos[0])
+					return send_file(speler.laatste_foto())
 	
-	return None
+	return send_file('foto/foto-Test.jpg')
 
 #
 # SocketIO Endpoints
@@ -86,14 +86,22 @@ def reset():
 
 @socketio.on('addplayer')
 def add_player(naam, email, categorie='M'):
+	print("nieuwe speler in de wachtrij")
 	nieuwe_speler = Speler(naam, email, categorie)
 	spelers.append(nieuwe_speler)
 	wachtrij.append(nieuwe_speler)
 	wachtrij_update()
 
+@socketio.on('addplayerandplay')
+def add_player_and_play(naam, email, categorie='M'):
+	print("nieuwe speler gaat direct spelen")
+	nieuwe_speler = Speler(naam, email, categorie)
+	spelers.append(nieuwe_speler)
+	broekhanger.laat_spelen(nieuwe_speler)
+
 @socketio.on('currentplayer')
 def current_player(id):
-	for speler in wachtrij:
+	for speler in spelers:
 		if speler.id == id:
 			broekhanger.laat_spelen(speler)
 			wachtrij.remove(speler)

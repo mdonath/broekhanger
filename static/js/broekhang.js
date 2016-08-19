@@ -46,11 +46,12 @@ $(document).ready(function() {
 		console.log('Event: Nieuwe speler: ' + speler);
 		if (speler == 'null') {
 			$('#huidigespeler').text('Niemand!');
-			$('#spelerisklaar,#spelerterug').hide();
+			$('#spelerisklaar,#spelerterug,#huidigespelercategorie').hide();
 		} else {
 			speler = JSON.parse(speler);
 			console.log('Naam: ' + speler.naam);
 			$('#huidigespeler').text(speler.naam);
+			$('#huidigespelercategorie').text(speler.categorie);
 			$('#spelerisklaar,#spelerterug').show();
 		}
 	});
@@ -83,11 +84,12 @@ $(document).ready(function() {
 				$.each(categorie_lijst, function(i, speler) {
 					aantal_spelers++;
 					w.append($('<tr>')
+						.click(function() { socket.emit('currentplayer', speler.id); })
 						.append($('<td>').addClass('spelerid').append(aantal_spelers) )
 						.append($('<td>').addClass('speler').append(speler.naam) )
 						.append($('<td>').addClass('email').append(speler.email) )
 						.append($('<td>').addClass('score').append(speler.scores[0]) )
-						.append($('<td>').addClass('foto thumbnail').append($('<img>').attr('src', 'foto/'+speler.id)) )
+						.append($('<td>').addClass('foto thumbnail').append($('<img>').attr('src', 'foto/'+speler.id+'?rnd='+ Math.random()) ))
 					)
 					// Toon top 3
 					if (aantal_spelers == 3) {
@@ -135,6 +137,13 @@ $(document).ready(function() {
 		var categorie = $('input[name=categorie]:checked').val()
 		console.log("Sending addplayer "+ categorie);
 		socket.emit('addplayer', naam, email, categorie);
+	});
+	$('#addplayerandplay').click(function(ev) {
+		var naam = $('#naam').val();
+		var email = $('#email').val();
+		var categorie = $('input[name=categorie]:checked').val()
+		console.log("Sending addplayerandplay "+ categorie);
+		socket.emit('addplayerandplay', naam, email, categorie);
 	});
 	
 	/* Neemt een test foto */
